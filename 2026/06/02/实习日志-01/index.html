@@ -1,0 +1,626 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>实习日志01 | Felix's Blog</title><meta name="author" content="Felix"><meta name="copyright" content="Felix"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="2026.6.2一、常用工具库VueUseVue3 组合式 API 工具函数集合，封装大量通用开发逻辑，简化代码、提升开发效率。还封装了各种浏览器 API、状态管理工具、时间处理函数等常用功能。  模块化与按需加载：支持按需引入，优化性能。 高可扩展性：支持插件扩展，如 Router、Firebase 等。 社区活跃：文档详尽，功能更新迅速，适配最新 Vue 版本。  VueUse 的使用场景与示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习日志01">
+<meta property="og:url" content="https://felixwen-dev.github.io/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/index.html">
+<meta property="og:site_name" content="Felix&#39;s Blog">
+<meta property="og:description" content="2026.6.2一、常用工具库VueUseVue3 组合式 API 工具函数集合，封装大量通用开发逻辑，简化代码、提升开发效率。还封装了各种浏览器 API、状态管理工具、时间处理函数等常用功能。  模块化与按需加载：支持按需引入，优化性能。 高可扩展性：支持插件扩展，如 Router、Firebase 等。 社区活跃：文档详尽，功能更新迅速，适配最新 Vue 版本。  VueUse 的使用场景与示">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-06-02T14:16:49.000Z">
+<meta property="article:modified_time" content="2026-06-09T14:32:36.552Z">
+<meta property="article:author" content="Felix">
+<meta property="article:tag" content="实习日志">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "实习日志01",
+  "url": "https://felixwen-dev.github.io/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/",
+  "image": "https://felixwen-dev.github.io/myBlog/img/butterfly-icon.png",
+  "datePublished": "2026-06-02T14:16:49.000Z",
+  "dateModified": "2026-06-09T14:32:36.552Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Felix",
+      "url": "https://felixwen-dev.github.io/myBlog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/myBlog/img/favicon.png"><link rel="canonical" href="https://felixwen-dev.github.io/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/myBlog/css/index.css?v=5.5.5-b1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/myBlog/',
+  algolia: undefined,
+  localSearch: {"path":"/myBlog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '实习日志01',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/myBlog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/myBlog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/myBlog/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/myBlog/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/myBlog/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/myBlog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/myBlog/"><span class="site-name">Felix's Blog</span></a><a class="nav-page-title" href="/myBlog/"><span class="site-name">实习日志01</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/myBlog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/myBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">实习日志01</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-02T14:16:49.000Z" title="发表于 2026-06-02 22:16:49">2026-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-09T14:32:36.552Z" title="更新于 2026-06-09 22:32:36">2026-06-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/myBlog/categories/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97/">实习日志</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="2026-6-2"><a href="#2026-6-2" class="headerlink" title="2026.6.2"></a>2026.6.2</h1><h2 id="一、常用工具库"><a href="#一、常用工具库" class="headerlink" title="一、常用工具库"></a>一、常用工具库</h2><h3 id="VueUse"><a href="#VueUse" class="headerlink" title="VueUse"></a>VueUse</h3><p>Vue3 组合式 API 工具函数集合，封装大量通用开发逻辑，简化代码、提升开发效率。还封装了各种浏览器 API、状态管理工具、时间处理函数等常用功能。</p>
+<ul>
+<li><strong>模块化与按需加载</strong>：支持按需引入，优化性能。</li>
+<li><strong>高可扩展性</strong>：支持插件扩展，如 Router、Firebase 等。</li>
+<li><strong>社区活跃</strong>：文档详尽，功能更新迅速，适配最新 Vue 版本。</li>
+</ul>
+<h4 id="VueUse-的使用场景与示例"><a href="#VueUse-的使用场景与示例" class="headerlink" title="VueUse 的使用场景与示例"></a>VueUse 的使用场景与示例</h4><p>在脚手架项目中，我们使用前需要安装 <code>@vueuse/core</code>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> i @vueuse/core<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装好依赖后，我们就可以从 <code>@vueuse/core</code> 中引入相应的方法了：</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useLocalStorage, useMouse, usePreferredDark &#125; from &quot;@vueuse&#x2F;core&quot;;
+&#x2F;&#x2F; .....
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h5><p>VueUse 提供了多种状态管理工具，可以轻松实现数据的响应式绑定与持久化。</p>
+<p><strong>1. useLocalStorage</strong></p>
+<p>将数据绑定到 <code>localStorage</code>，实现持久化和响应式。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useLocalStorage &#125; from &quot;@vueuse&#x2F;core&quot;;
+import &#123; watch &#125; from &quot;vue&quot;;
+
+&#x2F;&#x2F; 使用 localStorage 存储用户主题偏好，默认为 &quot;light&quot;
+const theme &#x3D; useLocalStorage(&quot;theme&quot;, &quot;light&quot;);
+
+&#x2F;&#x2F; 更新值时，localStorage 会自动更新
+theme.value &#x3D; &quot;dark&quot;;
+&#x2F;&#x2F; localStorage[&quot;theme&quot;] &#x3D; &quot;dark&quot;
+
+&#x2F;&#x2F; 监听主题变化，响应式更新
+watch(theme, (newValue) &#x3D;&gt; &#123;
+  console.log(&#96;主题切换为：$&#123;newValue&#125;&#96;);
+&#125;);
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>2. useSessionStorage</strong></p>
+<p>与 <code>useLocalStorage</code> 类似，但数据保存在会话中，关闭浏览器后失效。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useSessionStorage &#125; from &quot;@vueuse&#x2F;core&quot;;
+
+&#x2F;&#x2F; 会话级存储，页面关闭后失效
+const sessionData &#x3D; useSessionStorage(&quot;session&quot;, &#123; user: &quot;快乐就是哈哈哈&quot; &#125;);
+sessionData.value.user &#x3D; &quot;你好&quot;; &#x2F;&#x2F; 更新值
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="浏览器-API"><a href="#浏览器-API" class="headerlink" title="浏览器 API"></a>浏览器 API</h5><p>VueUse 提供了多种封装良好的浏览器 API，便于操作。</p>
+<p><strong>1. useWindowSize</strong></p>
+<p>动态监听浏览器窗口大小。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useWindowSize &#125; from &quot;@vueuse&#x2F;core&quot;;
+import &#123; watchEffect &#125; from &quot;vue&quot;;
+
+const &#123; width, height &#125; &#x3D; useWindowSize();
+watchEffect(() &#x3D;&gt; &#123;
+  console.log(&#96;窗口大小：$&#123;width.value&#125; x $&#123;height.value&#125;&#96;);
+&#125;);
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>2. useClipboard</strong></p>
+<p>用于读取和操作剪贴板内容。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useClipboard &#125; from &quot;@vueuse&#x2F;core&quot;;
+
+const &#123; text, copy, isSupported &#125; &#x3D; useClipboard();
+
+&#x2F;&#x2F; 检查是否支持剪贴板功能
+if (isSupported) &#123;
+  copy(&quot;VueUse 是强大的工具集！&quot;); &#x2F;&#x2F; 复制文本
+  console.log(&quot;已复制到剪贴板&quot;);
+&#125;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>3. useFullscreen</strong></p>
+<p>控制元素全屏显示。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; ref &#125; from &quot;vue&quot;;
+import &#123; useFullscreen &#125; from &quot;@vueuse&#x2F;core&quot;;
+
+const el &#x3D; ref(null);
+const &#123; isFullscreen, enter, exit, toggle &#125; &#x3D; useFullscreen(el);
+&lt;&#x2F;script&gt;
+
+&lt;template&gt;
+  &lt;div ref&#x3D;&quot;el&quot;&gt;
+    &lt;p&gt;全屏内容区域&lt;&#x2F;p&gt;
+
+    &lt;button @click&#x3D;&quot;toggle&quot;&gt;
+      &#123;&#123; isFullscreen ? &quot;退出全屏&quot; : &quot;进入全屏&quot; &#125;&#125;
+    &lt;&#x2F;button&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="DOM-操作"><a href="#DOM-操作" class="headerlink" title="DOM 操作"></a>DOM 操作</h5><p>通过 VueUse 操作 DOM 元素更加简单高效。</p>
+<p><strong>1. useElementSize</strong></p>
+<p>监听 HTML 元素大小。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; ref &#125; from &quot;vue&quot;;
+import &#123; useElementSize &#125; from &quot;@vueuse&#x2F;core&quot;;
+import &#123; watchEffect &#125; from &quot;vue&quot;;
+
+const elementRef &#x3D; ref(null);
+const &#123; width, height &#125; &#x3D; useElementSize(elementRef);
+
+watchEffect(() &#x3D;&gt; &#123;
+  console.log(&#96;元素宽度：$&#123;width.value&#125;px，高度：$&#123;height.value&#125;px&#96;);
+&#125;);
+&lt;&#x2F;script&gt;
+
+&lt;template&gt;
+  &lt;div ref&#x3D;&quot;elementRef&quot;&gt;被监听的元素&lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>2. useDraggable</strong></p>
+<p>让元素支持拖拽功能。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; ref &#125; from &quot;vue&quot;;
+import &#123; useDraggable &#125; from &quot;@vueuse&#x2F;core&quot;;
+
+const elementRef &#x3D; ref(null);
+useDraggable(elementRef); &#x2F;&#x2F; 让该元素可拖拽
+&lt;&#x2F;script&gt;
+
+&lt;template&gt;
+  &lt;div ref&#x3D;&quot;elementRef&quot; style&#x3D;&quot;position: fixed; cursor: move;&quot;&gt;拖拽我&lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="时间管理"><a href="#时间管理" class="headerlink" title="时间管理"></a>时间管理</h5><p>时间相关的 API 提供了实时功能支持。</p>
+<p><strong>1. useTimestamp</strong></p>
+<p>实时获取时间戳。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useTimestamp &#125; from &quot;@vueuse&#x2F;core&quot;;
+import &#123; watchEffect &#125; from &quot;vue&quot;;
+
+const timestamp &#x3D; useTimestamp();
+watchEffect(() &#x3D;&gt; &#123;
+  console.log(&#96;当前时间戳：$&#123;timestamp.value&#125;&#96;);
+&#125;);
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>2. useNow</strong></p>
+<p>获取当前时间。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useNow &#125; from &quot;@vueuse&#x2F;core&quot;;
+import &#123; watchEffect &#125; from &quot;vue&quot;;
+
+const now &#x3D; useNow();
+watchEffect(() &#x3D;&gt; &#123;
+  console.log(&#96;当前时间：$&#123;now.value.toLocaleString()&#125;&#96;);
+&#125;);
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>3. useDateFormat</strong></p>
+<p>格式化日期时间。</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;script setup&gt;
+import &#123; useNow, useDateFormat &#125; from &quot;@vueuse&#x2F;core&quot;;
+
+const now &#x3D; useNow();
+const formatted &#x3D; useDateFormat(now, &quot;YYYY-MM-DD HH:mm:ss&quot;);
+&lt;&#x2F;script&gt;
+
+&lt;template&gt;
+  &lt;p&gt;当前时间：&#123;&#123; formatted &#125;&#125;&lt;&#x2F;p&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="WangEditor"><a href="#WangEditor" class="headerlink" title="WangEditor"></a>WangEditor</h3><p>轻量富文本编辑器，适配 Vue 项目，用于后台系统文本内容编辑。</p>
+<h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><p>使用 npm 或 yarn 安装以下依赖：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> @wangeditor/editor-for-vue @wangeditor/editor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="基本使用示例"><a href="#基本使用示例" class="headerlink" title="基本使用示例"></a>基本使用示例</h4><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;template&gt;
+  &lt;div style&#x3D;&quot;border: 1px solid #ccc&quot;&gt;
+    &lt;!-- 工具栏 --&gt;
+    &lt;Toolbar
+      :editor&#x3D;&quot;editorRef&quot;
+      :defaultConfig&#x3D;&quot;toolbarConfig&quot;
+      mode&#x3D;&quot;default&quot;
+      style&#x3D;&quot;border-bottom: 1px solid #ccc&quot;
+    &#x2F;&gt;
+    &lt;!-- 编辑器 --&gt;
+    &lt;Editor
+      v-model&#x3D;&quot;valueHtml&quot;
+      :defaultConfig&#x3D;&quot;editorConfig&quot;
+      mode&#x3D;&quot;default&quot;
+      style&#x3D;&quot;height: 500px; overflow-y: hidden&quot;
+      @onCreated&#x3D;&quot;handleCreated&quot;
+    &#x2F;&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+
+&lt;script setup&gt;
+import &#123; ref, shallowRef, onBeforeUnmount &#125; from &quot;vue&quot;;
+import &#123; Editor, Toolbar &#125; from &quot;@wangeditor&#x2F;editor-for-vue&quot;;
+
+&#x2F;&#x2F; 编辑器实例，必须用 shallowRef
+const editorRef &#x3D; shallowRef();
+
+&#x2F;&#x2F; 内容 HTML
+const valueHtml &#x3D; ref(&quot;&lt;p&gt;hello&lt;&#x2F;p&gt;&quot;);
+
+&#x2F;&#x2F; 工具栏配置
+const toolbarConfig &#x3D; &#123;&#125;;
+
+&#x2F;&#x2F; 编辑器配置
+const editorConfig &#x3D; &#123;
+  placeholder: &quot;请输入内容...&quot;,
+  MENU_CONF: &#123;
+    uploadImage: &#123;
+      server: &quot;&#x2F;api&#x2F;upload&quot;,
+      fieldName: &quot;file&quot;,
+    &#125;,
+  &#125;,
+&#125;;
+
+&#x2F;&#x2F; 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() &#x3D;&gt; &#123;
+  const editor &#x3D; editorRef.value;
+  if (editor &#x3D;&#x3D; null) return;
+  editor.destroy();
+&#125;);
+
+const handleCreated &#x3D; (editor) &#x3D;&gt; &#123;
+  editorRef.value &#x3D; editor;
+&#125;;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="nprogress"><a href="#nprogress" class="headerlink" title="nprogress"></a>nprogress</h3><p>页面顶部进度条插件，用于路由切换、页面加载，优化页面加载体验。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> nprogress<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="在-Vue-Router-中使用"><a href="#在-Vue-Router-中使用" class="headerlink" title="在 Vue Router 中使用"></a>在 Vue Router 中使用</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// router/index.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> createRouter<span class="token punctuation">,</span> createWebHistory <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'vue-router'</span>
+<span class="token keyword">import</span> NProgress <span class="token keyword">from</span> <span class="token string">'nprogress'</span>
+<span class="token keyword">import</span> <span class="token string">'nprogress/nprogress.css'</span>
+
+<span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token function">createRouter</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">history</span><span class="token operator">:</span> <span class="token function">createWebHistory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">routes</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 路由开始跳转时显示进度条</span>
+router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">to<span class="token punctuation">,</span> from<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  NProgress<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 路由跳转完成后关闭进度条</span>
+router<span class="token punctuation">.</span><span class="token function">afterEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  NProgress<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 路由跳转出错时关闭进度条</span>
+router<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  NProgress<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> router<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token comment">/* 修改进度条颜色 */</span>
+<span class="token selector">#nprogress .bar</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #409eff <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 3px <span class="token important">!important</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">#nprogress .peg</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">box-shadow</span><span class="token punctuation">:</span>
+    0 0 10px #409eff<span class="token punctuation">,</span>
+    0 0 5px #409eff <span class="token important">!important</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="husky"><a href="#husky" class="headerlink" title="husky"></a>husky</h3><p>Git 钩子工具，拦截代码提交、推送，校验代码规范，统一团队代码风格。</p>
+<h4 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装 husky</span>
+<span class="token function">npm</span> <span class="token function">install</span> husky --save-dev
+
+<span class="token comment"># 初始化 husky（v9 版本）</span>
+npx husky init<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="配置提交前钩子（pre-commit）"><a href="#配置提交前钩子（pre-commit）" class="headerlink" title="配置提交前钩子（pre-commit）"></a>配置提交前钩子（pre-commit）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建 pre-commit 钩子，在提交前自动运行 lint</span>
+npx husky <span class="token function">add</span> .husky/pre-commit <span class="token string">"npx lint-staged"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="配合-lint-staged-使用"><a href="#配合-lint-staged-使用" class="headerlink" title="配合 lint-staged 使用"></a>配合 lint-staged 使用</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> lint-staged --save-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在 <code>package.json</code> 中配置：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"lint-staged"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"*.&#123;js,vue,ts&#125;"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"eslint --fix"</span><span class="token punctuation">,</span> <span class="token string">"prettier --write"</span><span class="token punctuation">]</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="配置提交信息规范（commit-msg）"><a href="#配置提交信息规范（commit-msg）" class="headerlink" title="配置提交信息规范（commit-msg）"></a>配置提交信息规范（commit-msg）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">npx husky <span class="token function">add</span> .husky/commit-msg <span class="token string">'npx --no-install commitlint --edit "$1"'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>配合 <code>@commitlint/config-conventional</code> 使用，强制提交信息符合 Conventional Commits 规范。</p>
+<hr>
+<h3 id="jsdom"><a href="#jsdom" class="headerlink" title="jsdom"></a>jsdom</h3><p>Node 端模拟浏览器 DOM 环境的工具，无需浏览器即可操作 DOM，多用于前端单元测试。</p>
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> jsdom --save-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="基本使用示例-1"><a href="#基本使用示例-1" class="headerlink" title="基本使用示例"></a>基本使用示例</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> <span class="token punctuation">&#123;</span> <span class="token constant">JSDOM</span> <span class="token punctuation">&#125;</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"jsdom"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> dom <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSDOM</span><span class="token punctuation">(</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;!DOCTYPE html>&lt;html>&lt;body>&lt;div id="app">&lt;/div>&lt;/body>&lt;/html></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 获取 window 和 document</span>
+global<span class="token punctuation">.</span>window <span class="token operator">=</span> dom<span class="token punctuation">.</span>window<span class="token punctuation">;</span>
+global<span class="token punctuation">.</span>document <span class="token operator">=</span> dom<span class="token punctuation">.</span>window<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+
+<span class="token comment">// 操作 DOM</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"app"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"&lt;h1>Hello JSDOM&lt;/h1>"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>innerHTML<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &lt;h1>Hello JSDOM&lt;/h1></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="在-Vitest-中使用"><a href="#在-Vitest-中使用" class="headerlink" title="在 Vitest 中使用"></a>在 Vitest 中使用</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// vitest.config.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> defineConfig <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"vitest/config"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineConfig</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">environment</span><span class="token operator">:</span> <span class="token string">"jsdom"</span><span class="token punctuation">,</span> <span class="token comment">// 使用 jsdom 模拟浏览器环境</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;!-- Counter.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;span&gt;&#123;&#123; count &#125;&#125;&lt;&#x2F;span&gt;
+
+    &lt;button @click&#x3D;&quot;increment&quot;&gt;+1&lt;&#x2F;button&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+
+&lt;script setup&gt;
+import &#123; ref &#125; from &quot;vue&quot;;
+const count &#x3D; ref(0);
+const increment &#x3D; () &#x3D;&gt; count.value++;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Counter.spec.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> describe<span class="token punctuation">,</span> it<span class="token punctuation">,</span> expect <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"vitest"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> mount <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@vue/test-utils"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> Counter <span class="token keyword">from</span> <span class="token string">"./Counter.vue"</span><span class="token punctuation">;</span>
+
+<span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">"Counter"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">"点击按钮后计数增加"</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> wrapper <span class="token operator">=</span> <span class="token function">mount</span><span class="token punctuation">(</span>Counter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> button <span class="token operator">=</span> wrapper<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">"button"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> button<span class="token punctuation">.</span><span class="token function">trigger</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">expect</span><span class="token punctuation">(</span>wrapper<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">"span"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="二、Vue3-实战代码"><a href="#二、Vue3-实战代码" class="headerlink" title="二、Vue3 实战代码"></a>二、Vue3 实战代码</h2><h3 id="1-路由页面缓存"><a href="#1-路由页面缓存" class="headerlink" title="1. 路由页面缓存"></a>1. 路由页面缓存</h3><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;template&gt;
+  &lt;RouterView v-slot&#x3D;&quot;&#123; Component &#125;&quot;&gt;
+    &lt;keep-alive :include&#x3D;&quot;cachedViews&quot;&gt;
+      &lt;component :is&#x3D;&quot;Component&quot; v-if&#x3D;&quot;isCacheable&quot; &#x2F;&gt;
+    &lt;&#x2F;keep-alive&gt;
+
+    &lt;component :is&#x3D;&quot;Component&quot; v-if&#x3D;&quot;!isCacheable&quot; &#x2F;&gt;
+  &lt;&#x2F;RouterView&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>作用</strong>：按需缓存路由页面，提升页面切换性能。<code>keep-alive</code> 会缓存组件实例，避免重复渲染和请求数据。</p>
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>被缓存的组件需要设置 <code>name</code> 选项，且与 <code>include</code> 中的名称一致。</li>
+<li>可以在路由元信息中配置 <code>meta.keepAlive</code> 来动态控制。</li>
+</ul>
+<hr>
+<h3 id="2-后台侧边栏布局"><a href="#2-后台侧边栏布局" class="headerlink" title="2. 后台侧边栏布局"></a>2. 后台侧边栏布局</h3><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;template&gt;
+  &lt;el-container class&#x3D;&quot;admin-layout&quot;&gt;
+    &lt;el-aside width&#x3D;&quot;220px&quot; class&#x3D;&quot;layout-sidebar&quot;&gt;
+      &lt;AppSidebar :menus&#x3D;&quot;staticMenus&quot; :active-menu&#x3D;&quot;activeMenu&quot; &#x2F;&gt;
+    &lt;&#x2F;el-aside&gt;
+
+    &lt;el-container&gt;
+      &lt;el-header class&#x3D;&quot;layout-header&quot;&gt;
+        &lt;AppHeader &#x2F;&gt;
+      &lt;&#x2F;el-header&gt;
+
+      &lt;el-main class&#x3D;&quot;layout-main&quot;&gt;
+        &lt;RouterView &#x2F;&gt;
+      &lt;&#x2F;el-main&gt;
+    &lt;&#x2F;el-container&gt;
+  &lt;&#x2F;el-container&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>作用</strong>：搭建后台管理系统侧边栏布局，传入菜单数据与激活菜单状态。</p>
+<hr>
+<h3 id="3-侧边栏菜单渲染（递归组件）"><a href="#3-侧边栏菜单渲染（递归组件）" class="headerlink" title="3. 侧边栏菜单渲染（递归组件）"></a>3. 侧边栏菜单渲染（递归组件）</h3><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;!-- SidebarMenuNode.vue --&gt;
+&lt;template&gt;
+  &lt;el-sub-menu v-if&#x3D;&quot;hasChildren&quot; :index&#x3D;&quot;node.path&quot;&gt;
+    &lt;template #title&gt;
+      &lt;el-icon&gt;&lt;component :is&#x3D;&quot;node.meta?.icon&quot; &#x2F;&gt;&lt;&#x2F;el-icon&gt;
+
+      &lt;span&gt;&#123;&#123; node.meta?.title &#125;&#125;&lt;&#x2F;span&gt;
+    &lt;&#x2F;template&gt;
+
+    &lt;SidebarMenuNode
+      v-for&#x3D;&quot;(child, index) in node.children&quot;
+      :key&#x3D;&quot;child.path || &#96;sub-$&#123;index&#125;&#96;&quot;
+      :node&#x3D;&quot;child&quot;
+    &#x2F;&gt;
+  &lt;&#x2F;el-sub-menu&gt;
+
+  &lt;el-menu-item v-else :index&#x3D;&quot;node.path&quot; @click&#x3D;&quot;handleClick&quot;&gt;
+    &lt;el-icon&gt;&lt;component :is&#x3D;&quot;node.meta?.icon&quot; &#x2F;&gt;&lt;&#x2F;el-icon&gt;
+
+    &lt;template #title&gt;&#123;&#123; node.meta?.title &#125;&#125;&lt;&#x2F;template&gt;
+  &lt;&#x2F;el-menu-item&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;!-- AppSidebar.vue --&gt;
+&lt;template&gt;
+  &lt;el-menu
+    background-color&#x3D;&quot;#304156&quot;
+    text-color&#x3D;&quot;#bfcbd9&quot;
+    active-text-color&#x3D;&quot;#409eff&quot;
+    :default-active&#x3D;&quot;activeMenu&quot;
+    @select&#x3D;&quot;handleSelect&quot;
+    router
+  &gt;
+    &lt;SidebarMenuNode
+      v-for&#x3D;&quot;(item, index) in sidebarMenus&quot;
+      :key&#x3D;&quot;item.path || &#96;root-$&#123;index&#125;&#96;&quot;
+      :node&#x3D;&quot;item&quot;
+    &#x2F;&gt;
+  &lt;&#x2F;el-menu&gt;
+&lt;&#x2F;template&gt;
+
+&lt;script setup&gt;
+import SidebarMenuNode from &quot;.&#x2F;SidebarMenuNode.vue&quot;;
+
+defineProps(&#123;
+  menus: &#123;
+    type: Array,
+    default: () &#x3D;&gt; [],
+  &#125;,
+  activeMenu: &#123;
+    type: String,
+    default: &quot;&quot;,
+  &#125;,
+&#125;);
+
+const emit &#x3D; defineEmits([&quot;select&quot;]);
+
+const handleSelect &#x3D; (index, indexPath) &#x3D;&gt; &#123;
+  emit(&quot;select&quot;, index, indexPath);
+&#125;;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>作用</strong>：循环渲染多级侧边栏菜单，监听菜单选中事件。使用递归组件 <code>SidebarMenuNode</code> 实现无限层级菜单渲染。</p>
+<hr>
+<h2 id="三、Vue3-插槽类型及作用"><a href="#三、Vue3-插槽类型及作用" class="headerlink" title="三、Vue3 插槽类型及作用"></a>三、Vue3 插槽类型及作用</h2><ul>
+<li><strong>默认插槽</strong>：无命名插槽，适用于单一处内容插入。</li>
+<li><strong>具名插槽</strong>：带名称插槽，用于组件多位置分发内容。</li>
+<li><strong>作用域插槽</strong>：父组件可获取、使用子组件内部数据。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://felixwen-dev.github.io/myBlog">Felix</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://felixwen-dev.github.io/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/">https://felixwen-dev.github.io/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://felixwen-dev.github.io/myBlog" target="_blank">Felix's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/myBlog/tags/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97/">实习日志</a></div><div class="post-share"><div class="social-share" data-image="/myBlog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/myBlog/2026/06/10/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-01/" title="LocalMind 开发日志 01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">LocalMind 开发日志 01</div></div><div class="info-2"><div class="info-item-1">2026-6-10 项目架构设计项目描述：  一个基于 RAG 架构的本地&#x2F;云端 AI 知识库系统技术栈：Vue3 + NestJS + Prisma + MySQL + LangChain + Qdrant  项目目标LocalMind 是一个个人 AI 知识库系统，用户可以：  上传 PDF &#x2F; 文档 构建知识库 进行 AI 问答 基于语义检索获取答案（RAG）  架构设计系统采用 前后端分离 + AI增强架构：  表现层（Frontend）技术栈：  Vue3 Axios Pinia  职责：  用户交互界面 文件上传入口 知识库管理UI 聊天问答界面  应用层（Backend API）技术栈：  NestJS Prisma JWT  职责：  用户认证（注册 &#x2F; 登录） 知识库管理 文档上传处理 Chat对话接口 调用 AI 服务链路  后端表单设计：  User KnowledgeBase Document Chat  数据层（Database Layer）MySQL（结构化数据） 存储内容：  用户信息（User） 知识库（Knowled...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/myBlog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/myBlog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Felix</div><div class="author-info-description">记录学习与生活</div><div class="site-data"><a href="/myBlog/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/myBlog/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/myBlog/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/FelixWEN-dev"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/FelixWEN-dev" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:liamliu0216@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2026-6-2"><span class="toc-number">1.</span> <span class="toc-text">2026.6.2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">一、常用工具库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#VueUse"><span class="toc-number">1.1.1.</span> <span class="toc-text">VueUse</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VueUse-%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8E%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">VueUse 的使用场景与示例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.1.1.1.</span> <span class="toc-text">状态管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8-API"><span class="toc-number">1.1.1.1.2.</span> <span class="toc-text">浏览器 API</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DOM-%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.1.1.3.</span> <span class="toc-text">DOM 操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.1.1.4.</span> <span class="toc-text">时间管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WangEditor"><span class="toc-number">1.1.2.</span> <span class="toc-text">WangEditor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">基本使用示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nprogress"><span class="toc-number">1.1.3.</span> <span class="toc-text">nprogress</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Vue-Router-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">在 Vue Router 中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">自定义样式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#husky"><span class="toc-number">1.1.4.</span> <span class="toc-text">husky</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">安装与配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%90%E4%BA%A4%E5%89%8D%E9%92%A9%E5%AD%90%EF%BC%88pre-commit%EF%BC%89"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">配置提交前钩子（pre-commit）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E5%90%88-lint-staged-%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">配合 lint-staged 使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF%E8%A7%84%E8%8C%83%EF%BC%88commit-msg%EF%BC%89"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">配置提交信息规范（commit-msg）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsdom"><span class="toc-number">1.1.5.</span> <span class="toc-text">jsdom</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">基本使用示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Vitest-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">在 Vitest 中使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Vue3-%E5%AE%9E%E6%88%98%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">二、Vue3 实战代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%B7%AF%E7%94%B1%E9%A1%B5%E9%9D%A2%E7%BC%93%E5%AD%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 路由页面缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%90%8E%E5%8F%B0%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%B8%83%E5%B1%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 后台侧边栏布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E6%B8%B2%E6%9F%93%EF%BC%88%E9%80%92%E5%BD%92%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 侧边栏菜单渲染（递归组件）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Vue3-%E6%8F%92%E6%A7%BD%E7%B1%BB%E5%9E%8B%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">三、Vue3 插槽类型及作用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/10/LocalMind-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-01/" title="LocalMind 开发日志 01">LocalMind 开发日志 01</a><time datetime="2026-06-10T13:56:52.000Z" title="发表于 2026-06-10 21:56:52">2026-06-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/myBlog/2026/06/02/%E5%AE%9E%E4%B9%A0%E6%97%A5%E5%BF%97-01/" title="实习日志01">实习日志01</a><time datetime="2026-06-02T14:16:49.000Z" title="发表于 2026-06-02 22:16:49">2026-06-02</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Felix</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5-b1</a></span></div><div class="footer_custom_text">感谢访问我的博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/myBlog/js/utils.js?v=5.5.5-b1"></script><script src="/myBlog/js/main.js?v=5.5.5-b1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/myBlog/js/search/local-search.js?v=5.5.5-b1"></script></div></div></body></html>
